@@ -2,10 +2,10 @@ def Met_burb(arr):
     n = len(arr)
     for i in range(n):
         for j in range(0, n-i-1):
-            if arr[j] > arr[j+1]:
-                arr[j], arr[j+1] = arr[j+1], arr[j]
+            if ar[j] > ar[j+1]:
+                ar[j], ar[j+1] = ar[j+1], ar[j]
 
 # Ejemplo:
-ar = [64, 34, 25, 12, 22, 11, 90]
+ar = [44, 40, 29, 12, 23, 11, 80]
 Met_burb(ar)
 print("Arreglo ordenado usando Metodo Burbuja:", ar)
