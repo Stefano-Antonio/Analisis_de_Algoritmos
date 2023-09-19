@@ -1,0 +1,15 @@
+def Burbu_Optim(ar):
+    n = len(ar)
+    for i in range(n):
+        aux = False
+        for j in range(0, n-i-1):
+            if ar[j] > ar[j+1]:
+                ar[j], ar[j+1] = ar[j+1], ar[j]
+                aux = True
+        if not aux:
+            break
+
+# Ejemplo:
+ar = [34, 34, 24, 66, 22, 11, 70]
+Burbu_Optim(arr)
+print("Arreglo ordenado usando Bubble Sort Optimizado:", ar)
