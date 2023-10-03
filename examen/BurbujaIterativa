@@ -1,0 +1,12 @@
+def metBurbujIter(ar):
+
+ n = len(ar)
+
+ for i in range (n-1):
+  for j in range(0, n-i-1):
+   if ar[j]>ar[i]:
+    ar[j],ar[j+1]=ar[j+1],ar[j]
+
+lista = [34,56,12,76,92,43]
+metBurbujIter(lista)
+print("ordenamiento:",lista)
