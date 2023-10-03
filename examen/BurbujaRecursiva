@@ -1,0 +1,16 @@
+def metBurbujRec(ar, n):
+    
+    if n <= 1:
+        return
+    
+    for i in range (n-1):
+        if ar[i] > ar[i+1]:
+            ar[i],ar[i+1]=ar[i+1],ar[i]
+
+            metBurbujRec(ar, n - 1)
+   
+   
+lista = [34,56,12,76,92,43]
+n = 6
+metBurbujRec(lista,n)
+print("ordenamiento:",lista)
