@@ -1,0 +1,74 @@
+import random
+import time
+import matplotlib.pyplot as plt
+
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    pivot = arr[len(arr) // 2]  # Elegir un elemento pivote (la media)
+    izq, med, der = [], [], []
+
+    for x in arr:
+        if x < pivot:
+            izq.append(x)
+        elif x == pivot:
+            med.append(x)
+        else:
+            der.append(x)
+
+    return quicksort(izq) + med + quicksort(der)
+
+#  100 arreglos
+arreglode_100 = []
+
+# Generar 100 arreglos de diferente dimensión 
+for _ in range(100):
+    tamaño_arreglo = random.randint(500, 2000)  
+    new_array = [random.randint(100, 500) for _ in range(tamaño_arreglo)]
+    arreglode_100.append(new_array)
+
+
+# Ordenar cada arreglo usando Quicksort
+arr_time = []
+
+
+for i, arreglo in enumerate(arreglode_100):
+    start_time = time.time()  # Tiempo de inicio
+    sorted_array = quicksort(arreglo)
+    end_time = time.time()  # Tiempo de finalización
+    elapsed_time = end_time - start_time  # Tiempo transcurrido
+    arr_time.append(elapsed_time)
+    arreglode_100[i] = sorted_array
+   
+    print(f"Arreglo {i}: Tiempo de ordenamiento {elapsed_time:.6f} segundos")
+
+
+# Imprimir los arreglos ordenados
+for i, arreglo in enumerate(arreglode_100):
+    print('timepo',i,arr_time[i])
+    print(f"Arreglo {i}: {arreglo}")
+# imprimir 3 valores mas grandes y mas chicos
+
+
+menor_arreglo = [2]
+mayor_arreglo = [2]
+mayor_arreglo = sorted(arr_time)[:3]
+menor_arreglo = sorted(arr_time, reverse=True)[:3]
+
+print('Tres valores más grandes:')
+for valor in menor_arreglo:
+    print(valor)
+
+print('Tres valores más pequeños:')
+for valor in mayor_arreglo:
+    print(valor)
+
+
+
+#graficar
+plt.plot(range(100), arr_time, marker='o', linestyle='-')
+plt.title('Tiempo de ordenamiento por arreglo')
+plt.xlabel('Arreglo')
+plt.ylabel('Tiempo (segundos)')
+plt.show()
