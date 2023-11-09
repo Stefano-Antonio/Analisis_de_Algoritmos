@@ -1,0 +1,56 @@
+import random
+import time
+import matplotlib.pyplot as plt
+
+
+def mochila_Fraccionaria(capacidad, objetos):
+    #ordenas por valor/peso
+    objetos.sort(key=lambda x: x[0]/x[1], reverse=True)
+    total_objetos = 0.0
+    mochila = []
+    for valor, peso in objetos:
+        #si el objeto se puede guardar completo
+        if capacidad >= peso:
+            mochila.append((valor, peso))
+            total_objetos += valor
+            capacidad -= peso
+        #el objeto pesa mas de la capacidad, que pasa:
+        else:
+            fracc = capacidad / peso 
+            mochila.append((valor*fracc, peso*fracc))
+            total_objetos += valor*fracc
+            break 
+    return total_objetos, mochila
+
+#  100 arreglos
+arreglode_10 = []
+arreglode_10M= []
+arreglo_10mochilas=[]
+# Generar 100 arreglos de diferente dimensión 
+for _ in range(10):
+    arreglode_10.append(random.randint(1,99))
+    x=random.randint(1,50)
+    y=random.randint(1,50)
+    arreglode_10M.append((x,y))
+    arreglo_10mochilas.append(arreglode_10M)
+
+
+arr_time = []
+for x in range (10):
+    if __name__ == '__main__':
+        start_time = time.time()  # Tiempo de inicio
+        objetos = [(5,10),(1,15),(1,8),(3,15)]
+        capacidad = 35
+        total_objetos, mochila = mochila_Fraccionaria(arreglode_10[x], arreglo_10mochilas[x])
+        end_time = time.time()  # Tiempo de finalización
+        elapsed_time = end_time - start_time  # Tiempo transcurrido
+        arr_time.append(elapsed_time)
+        print(f'El total de objetos es {total_objetos} y la mochila quedo {mochila}')
+
+
+#graficar
+plt.plot(range(10), arr_time, marker='o', linestyle='-')
+plt.title('Tiempo de ordenamiento por arreglo')
+plt.xlabel('Arreglo')
+plt.ylabel('Tiempo (segundos)')
+plt.show()
