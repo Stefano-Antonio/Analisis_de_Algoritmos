@@ -1,0 +1,104 @@
+import time
+import heapq
+#constructor
+
+class Graph:
+    def __init__(self):
+        self.grafo = {}
+
+    def add_vertex(self, nodo):
+        # Agregar un nuevo nodo al grafo
+        if nodo not in self.grafo:
+            self.grafo[nodo] = {}
+
+    def add_edge(self, origen, destino, peso):
+        # Agregar una arista con peso al grafo
+        if origen not in self.grafo and destino not in self.grafo:
+            self.add_vertex(origen)
+            self.add_vertex(destino)
+
+        self.grafo[origen][destino] = peso
+
+def dijkstra(grafo, inicio):
+    # Inicializar distancias y conjunto de nodos visitados
+    start_time = time.time()
+    distancias = {nodo: float('infinity') for nodo in grafo.grafo}
+    distancias[inicio] = 0
+    visitados = set()
+
+    # Usar una cola de prioridad (heap) para elegir el nodo con la distancia mínima
+    cola_prioridad = [(0, inicio)]  # (distancia, nodo)
+
+    while cola_prioridad:
+        distancia_actual, nodo_actual = heapq.heappop(cola_prioridad)
+
+        # Si ya visitamos este nodo, continuamos al siguiente
+        if nodo_actual in visitados:
+            continue
+
+        # Marcar el nodo como visitado
+        visitados.add(nodo_actual)
+
+        # Actualizar las distancias de los nodos vecinos
+        for vecino, peso in grafo.grafo[nodo_actual].items():
+            distancia = distancia_actual + peso
+
+            # Si encontramos una distancia más corta, la actualizamos
+            if distancia < distancias[vecino]:
+                distancias[vecino] = distancia
+                heapq.heappush(cola_prioridad, (distancia, vecino))
+        end_time = time.time()
+        tiempo_procesamiento = end_time - start_time
+    return distancias,tiempo_procesamiento
+
+grafo = Graph()
+grafo.add_vertex("A")
+grafo.add_vertex("B")
+grafo.add_vertex("C")
+grafo.add_vertex("D")
+grafo.add_vertex("E")
+grafo.add_vertex("F")
+grafo.add_vertex("G")
+grafo.add_vertex("H")
+grafo.add_vertex("I")
+grafo.add_vertex("J")
+grafo.add_vertex("K")
+grafo.add_vertex("L")
+grafo.add_vertex("M")
+grafo.add_vertex("N")
+grafo.add_vertex("O")
+grafo.add_vertex("P")
+grafo.add_vertex("Q")
+grafo.add_vertex("R")
+grafo.add_vertex("S")
+grafo.add_edge("A", "B", 1043)
+grafo.add_edge("A", "C", 1035)
+grafo.add_edge("B", "C", 1022)
+grafo.add_edge("C", "D", 1018)
+grafo.add_edge("C", "E", 1024)
+grafo.add_edge("D", "E", 1034)
+grafo.add_edge("D", "B", 1049)
+grafo.add_edge("E", "F", 1033)
+grafo.add_edge("E", "G", 1028)
+grafo.add_edge("F", "G", 1017)
+grafo.add_edge("G", "H", 1019)
+grafo.add_edge("G", "I", 1028)
+grafo.add_edge("I", "J", 1035)
+grafo.add_edge("J", "A", 1015)
+grafo.add_edge("J", "K", 1048)
+grafo.add_edge("J", "L", 1037)
+grafo.add_edge("L", "M", 1026)
+grafo.add_edge("K", "M", 1029)
+grafo.add_edge("M", "J", 1017)
+grafo.add_edge("M", "A", 1019)
+grafo.add_edge("M", "N", 1015)
+grafo.add_edge("N", "O", 1028)
+grafo.add_edge("N", "P", 1017)
+grafo.add_edge("O", "Q", 1026)
+grafo.add_edge("P", "R", 1019)
+grafo.add_edge("R", "S", 1017)
+grafo.add_edge("S", "A", 10100)
+
+start_vertex = "R"
+resultado = dijkstra(grafo, start_vertex)
+print(f"Caminos mínimos desde {start_vertex}: {resultado}segundos de procesamiento")
