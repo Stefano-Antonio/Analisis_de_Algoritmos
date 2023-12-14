@@ -1,0 +1,67 @@
+import time
+import matplotlib.pyplot as plt
+
+def fibonacci_dinamico(n):
+    start_time = time.time()
+    # Lista para guardar las soluciones
+    soluciones = [0] * (n + 1)
+
+    # Definir casos base
+    soluciones[0] = 0
+    soluciones[1] = 1
+
+    # Ciclo para caso general
+    for i in range(2, n + 1):
+        if soluciones[i] == 0:
+            soluciones[i] = soluciones[i - 2] + soluciones[i - 1]
+
+    end_time = time.time()
+    tiempo_procesamiento = end_time - start_time
+    return soluciones[n], tiempo_procesamiento
+
+def fibonacci_iterativo(n):
+    start_time = time.time()
+    fib = [0, 1]
+    for i in range(2, n + 1):
+        next_fib = fib[i - 1] + fib[i - 2]
+        fib.append(next_fib)
+    end_time = time.time()
+    tiempo_procesamiento = end_time - start_time
+    return fib[n], tiempo_procesamiento
+
+def fibonacci_recursivo(n):
+    start_time = time.time()
+    if n <= 1:
+        end_time = time.time()
+        tiempo_procesamiento = end_time - start_time
+        return n, tiempo_procesamiento
+    else:
+        resultado = fibonacci_recursivo(n - 1)[0] + fibonacci_recursivo(n - 2)[0]
+        end_time = time.time()
+        tiempo_procesamiento = end_time - start_time
+        return resultado, tiempo_procesamiento
+
+def medir_tiempo(func, n):
+    _, tiempo_procesamiento = func(n)
+    return tiempo_procesamiento
+
+def graficar(tiempo_procesamiento1, tiempo_procesamiento2, tiempo_procesamiento3, n):
+    entradas = list(range(1, n + 1))
+    plt.figure(figsize=(8, 6))
+    plt.plot(entradas, tiempo_procesamiento1, label='Dinámico')
+    plt.plot(entradas, tiempo_procesamiento2, label='Iterativo')
+    plt.plot(entradas, tiempo_procesamiento3, label='Recursivo')
+    plt.title("Complejidad Fibonacci")
+    plt.xlabel("Entrada")
+    plt.ylabel("Tiempo de Ejecución (segundos)")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+if __name__ == '__main__':
+    n = 100
+    tiempo_procesamiento1 = [medir_tiempo(fibonacci_dinamico, i) for i in range(1, n + 1)]
+    tiempo_procesamiento2 = [medir_tiempo(fibonacci_iterativo, i) for i in range(1, n + 1)]
+    tiempo_procesamiento3 = [medir_tiempo(fibonacci_recursivo, i) for i in range(1, n + 1)]
+    
+    graficar(tiempo_procesamiento1, tiempo_procesamiento2, tiempo_procesamiento3, n)
