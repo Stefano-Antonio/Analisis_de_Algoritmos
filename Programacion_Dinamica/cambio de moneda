@@ -1,0 +1,25 @@
+def cambio_moneda(monedas,cantidad):
+    #crea una tabla para almacenar resultados intermedios
+    #inicializa tabla con valor infinito,
+    tabla = [float('inf')]*(cantidad + 1)
+    #para formar o no se nececitan monedas
+    tabla[0]=0
+    monedas_utilizadas = [[] for _ in range(cantidad + 1)]
+
+    #calcular la cantidad minima de monedas para cada valor desde 1 hasta la cantidad deseada
+    for m in monedas:
+        for i in range(m, cantidad + 1):
+        #Actualizar tabla solo si la nueva solucion es mejor
+           tabla[i] = min(tabla[i], tabla[i-m]+1)
+
+    return tabla[cantidad]
+
+monedas = [20,10,5,1]
+
+cantidad_dinero = 384
+
+min_monedas = cambio_moneda(monedas, cantidad_dinero)
+
+print(f"la cantidad minima de monedas necesarias es:{min_monedas}")
+
+
