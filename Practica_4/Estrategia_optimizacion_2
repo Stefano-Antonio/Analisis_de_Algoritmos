@@ -1,0 +1,22 @@
+def heuristica_colocacion_inicial(n):
+    # Heurística: Colocar las reinas en las primeras filas
+    return list(range(n))
+
+def resolver_n_reinas_con_heuristica(n):
+    tablero = [[0] * n for _ in range(n)]
+    soluciones = []
+    filas = heuristica_colocacion_inicial(n)
+    
+    def resolver_n_reinas_util_heuristica(tablero, columna, n, soluciones):
+        if columna == n:
+            soluciones.append([fila[:] for fila in tablero])
+            return
+        
+        for i in filas:
+            if es_seguro(tablero, i, columna, n):
+                tablero[i][columna] = 1
+                resolver_n_reinas_util_heuristica(tablero, columna + 1, n, soluciones)
+                tablero[i][columna] = 0
+    
+    resolver_n_reinas_util_heuristica(tablero, 0, n, soluciones)
+    return soluciones
