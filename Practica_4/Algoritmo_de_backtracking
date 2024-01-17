@@ -1,0 +1,64 @@
+import time
+import matplotlib.pyplot as plt
+
+def es_seguro(tablero, fila, columna, n):
+    # Verificar si no hay reinas en la misma fila
+    for i in range(columna):
+        if tablero[fila][i] == 1:
+            return False
+    
+    # Verificar si no hay reinas en la misma diagonal superior
+    for i, j in zip(range(fila, -1, -1), range(columna, -1, -1)):
+        if tablero[i][j] == 1:
+            return False
+    
+    # Verificar si no hay reinas en la misma diagonal inferior
+    for i, j in zip(range(fila, n, 1), range(columna, -1, -1)):
+        if tablero[i][j] == 1:
+            return False
+    
+    return True
+
+def resolver_n_reinas_util(tablero, columna, n, soluciones):
+    if columna == n:
+        soluciones.append([fila[:] for fila in tablero])
+        return
+    
+    for i in range(n):
+        if es_seguro(tablero, i, columna, n):
+            tablero[i][columna] = 1
+            resolver_n_reinas_util(tablero, columna + 1, n, soluciones)
+            tablero[i][columna] = 0
+
+def resolver_n_reinas(n):
+    tablero = [[0] * n for _ in range(n)]
+    soluciones = []
+    resolver_n_reinas_util(tablero, 0, n, soluciones)
+    return soluciones
+
+def mostrar_tablero(tablero):
+    for fila in tablero:
+        print(" ".join("Q" if x else "." for x in fila))
+    print()
+
+def graficar_tiempos(tiempos):
+    plt.plot(tiempos.keys(), tiempos.values(), marker='o')
+    plt.title('Tiempo de ejecución para diferentes valores de N')
+    plt.xlabel('N')
+    plt.ylabel('Tiempo (segundos)')
+    plt.show()
+
+if __name__ == "__main__":
+    tiempos = {}
+
+    for n in range(1, 11):
+        start_time = time.time()
+        soluciones = resolver_n_reinas(n)
+        end_time = time.time()
+        tiempo_ejecucion = end_time - start_time
+        tiempos[n] = tiempo_ejecucion
+
+        print(f"Soluciones para N = {n}: {len(soluciones)}")
+        print(f"Tiempo de ejecución: {tiempo_ejecucion:.6f} segundos\n")
+
+    graficar_tiempos(tiempos)
