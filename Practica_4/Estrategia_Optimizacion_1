@@ -1,0 +1,16 @@
+def resolver_n_reinas_util_con_poda(tablero, columna, n, soluciones):
+    if columna == n:
+        soluciones.append([fila[:] for fila in tablero])
+        return
+    
+    for i in range(n):
+        if es_seguro(tablero, i, columna, n):
+            tablero[i][columna] = 1
+            resolver_n_reinas_util_con_poda(tablero, columna + 1, n, soluciones)
+            tablero[i][columna] = 0
+
+def resolver_n_reinas_con_poda(n):
+    tablero = [[0] * n for _ in range(n)]
+    soluciones = []
+    resolver_n_reinas_util_con_poda(tablero, 0, n, soluciones)
+    return soluciones
